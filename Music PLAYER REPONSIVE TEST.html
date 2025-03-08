@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SONIC WAVESz 🎶</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @font-face {
+      font-family: 'Emirates-Bold';
+      src: url('../fonts/Emirates-Bold.woff2') format('woff2'),
+           url('../fonts/Emirates-Bold.woff') format('woff'),
+           url('../fonts/Emirates-Bold.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    :root {
+  --primary-color: #1db954;
+  --secondary-color: #191414;
+  --text-color: #ffffff;
+  --background-color: #121212;
+  --card-color: #181818;
+  --hover-color: #282828;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Emirates-Bold", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 0.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(18, 18, 18, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+header h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  transition: font-size 0.3s ease;
+}
+
+#background-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px);
+  opacity: 0.3;
+  transition: background-image 0.5s ease-in-out;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 100px 20px 20px;
+  transition: padding 0.3s ease;
+}
+
+.music-container {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  transition: flex-direction 0.3s ease;
+}
+
+.playlist-box,
+.player-container {
+  background-color: var(--card-color);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.playlist-box {
+  flex: 0 0 40%;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+.player-container {
+  flex: 0 0 60%;
+}
+
+.playlist h1 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+}
+
+#playlist-items {
+  list-style: none;
+}
+
+#playlist-items li {
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+}
+
+#playlist-items li:hover {
+  background-color: var(--hover-color);
+}
+
+#playlist-items li.active {
+  background-color: rgba(29, 185, 84, 0.2);
+  border-left: 3px solid var(--primary-color);
+}
+
+.album-cover {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.album-cover img {
+  width: 80%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.visualizer-container {
+  width: 100%;
+  height: 80px;
+  margin: 15px 0;
+  transition: height 0.3s ease;
+}
+
+#visualizer {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.song-info {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.song-info h2 {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  margin-bottom: 5px;
+}
+
+.song-info p {
+  color: #b3b3b3;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background-color: #535353;
+  border-radius: 4px;
+  margin: 0 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  margin: 0 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.play-btn {
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
+  width: clamp(50px, 10vw, 60px);
+  height: clamp(50px, 10vw, 60px);
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.play-btn:hover {
+  background-color: #1ed760;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+}
+
+.volume-container i {
+  margin: 0 10px;
+  color: #b3b3b3;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+}
+
+#volume {
+  flex: 1;
+  appearance: none;
+  height: 5px;
+  background: #535353;
+  border-radius: 2.5px;
+  cursor: pointer;
+}
+
+#volume::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#volume::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Custom scrollbar for playlist */
+.playlist-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.playlist-box::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.playlist-box::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+
+.playing img {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .music-container {
+    flex-direction: column;
+  }
+
+  .playlist-box,
+  .player-container {
+    flex: 0 0 100%;
+  }
+
+  .playlist-box {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  body{
+    zoom: 40%;
+  }
+  main {
+    padding-top: 50px;
+  }
+
+  .playlist-box,
+  .player-container {
+    padding: 15px;
+  }
+
+  .album-cover img {
+    width: 70%;
+  }
+
+  .visualizer-container {
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h2 {
+    font-size: 1.8rem;
+    /* position: relative;
+    bottom: 20%; */
+  }
+
+  main {
+    padding-top: 70px;
+  }
+
+  .playlist-box {
+    max-height: 250px;
+  }
+
+  .album-cover img {
+    width: 60%;
+  }
+
+  .visualizer-container {
+    height: 50px;
+  }
+
+  .controls {
+    margin: 10px 0;
+  }
+
+  .control-btn {
+    margin: 0 10px;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Sonic Waves'z 🎶</h2>
+  </header>
+  <div id="background-blur"></div>
+  <main>
+    <div class="music-container">
+      <div class="playlist-box">
+        <div class="playlist">
+          <h1>Playlist</h1>
+          <ul id="playlist-items">
+            <li>Song 1: Devara Thandavam</li>
+            <li>Song 2: Devara All Hair Tiger</li>
+            <li>Song 3: Solo Levelling Intro</li>
+            <li>Song 4: Devara Ayudha Pooka</li>
+          </ul>
+        </div>
+      </div>
+      <div class="player-container">
+        <div class="music-player">
+          <div class="album-cover">
+            <img id="album-art" src="/placeholder.svg?height=200&width=200" height="200" width="200" alt="Album Cover">
+          </div>
+          <div class="visualizer-container">
+            <canvas id="visualizer"></canvas>
+          </div>
+          <div class="song-info">
+            <h2 id="song-title">Song Title</h2>
+            <p id="song-artist">Artist</p>
+          </div>
+          <div class="progress-container">
+            <span id="current-time">0:00</span>
+            <div class="progress-bar">
+              <div class="progress" id="progress"></div>
+            </div>
+            <span id="duration">0:00</span>
+          </div>
+          <div class="controls">
+            <button id="prev" class="control-btn"><i class="fas fa-step-backward"></i></button>
+            <button id="play" class="control-btn play-btn"><i class="fas fa-play"></i></button>
+            <button id="next" class="control-btn"><i class="fas fa-step-forward"></i></button>
+          </div>
+          <div class="volume-container">
+            <i class="fas fa-volume-down"></i>
+            <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7">
+            <i class="fas fa-volume-up"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+  // DOM Elements
+  const audioElement = new Audio()
+  const playBtn = document.getElementById("play")
+  const prevBtn = document.getElementById("prev")
+  const nextBtn = document.getElementById("next")
+  const progressBar = document.getElementById("progress")
+  const progressContainer = document.querySelector(".progress-bar")
+  const currentTimeEl = document.getElementById("current-time")
+  const durationEl = document.getElementById("duration")
+  const volumeSlider = document.getElementById("volume")
+  const albumArt = document.getElementById("album-art")
+  const songTitle = document.getElementById("song-title")
+  const songArtist = document.getElementById("song-artist")
+  const playlistItems = document.getElementById("playlist-items")
+  const visualizer = document.getElementById("visualizer")
+
+  // Audio Context for Visualizer
+  let audioContext
+  let analyser
+  let source
+  const canvasContext = visualizer.getContext("2d")
+  let animationId
+
+  // Set canvas size
+  visualizer.width = visualizer.offsetWidth
+  visualizer.height = visualizer.offsetHeight
+
+  // Sample playlist - in a real app, you might load this from an API
+  const songs = [
+    {
+      title: "Devara: All Hail Tiger",
+      artist: "Anirudh Ravichander",
+      src: "All Hail The Tiger.mp3",
+      cover: "https://i.scdn.co/image/ab67616d00001e02f4920fea00e57158f540baaa",
+    },
+    {
+      title: "Devara: Ayudha Pooja",
+      artist: "Kala Bhairava",
+      src: "Ayudha Pooja.mp3",
+      cover: "https://i.scdn.co/image/ab67616d00001e02ace943da67db014bbcbbf1c1",
+    },
+    {
+      title: "Devara: Devara Thandavam",
+      artist: "Anirudh Ravichander",
+      src: "Devara Thandavam.mp3",
+      cover: "https://i.scdn.co/image/ab67616d00001e025280788ee7502153c9377477",
+    },
+  ]
+
+  // Current song index
+  let songIndex = 0
+
+  // Initialize player
+  function initPlayer() {
+    // Load first song
+    loadSong(songs[songIndex])
+
+    // Create playlist items
+    renderPlaylist()
+
+    // Set initial volume
+    audioElement.volume = volumeSlider.value
+
+    // Setup audio context for visualizer when user interacts
+    playBtn.addEventListener("click", () => {
+      if (!audioContext) {
+        setupAudioContext()
+      }
+      togglePlay()
+    })
+  }
+
+  // Setup Audio Context for visualizer
+  function setupAudioContext() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    analyser = audioContext.createAnalyser()
+    source = audioContext.createMediaElementSource(audioElement)
+
+    source.connect(analyser)
+    analyser.connect(audioContext.destination)
+
+    analyser.fftSize = 256
+
+    // Start visualizer
+    visualize()
+  }
+
+  // Render the playlist
+  function renderPlaylist() {
+    playlistItems.innerHTML = ""
+    songs.forEach((song, index) => {
+      const li = document.createElement("li")
+      li.textContent = `${song.title} - ${song.artist}`
+      li.dataset.index = index
+
+      if (index === songIndex) {
+        li.classList.add("active")
+      }
+
+      li.addEventListener("click", () => {
+        songIndex = Number.parseInt(li.dataset.index)
+        loadSong(songs[songIndex])
+        if (!audioContext) {
+          setupAudioContext()
+        }
+        playAudio()
+      })
+
+      playlistItems.appendChild(li)
+    })
+  }
+
+  // Load song details
+  function loadSong(song) {
+    songTitle.textContent = song.title
+    songArtist.textContent = song.artist
+    albumArt.src = song.cover
+    audioElement.src = song.src
+
+    // Update active playlist item
+    document.querySelectorAll("#playlist-items li").forEach((item, index) => {
+      if (index === songIndex) {
+        item.classList.add("active")
+      } else {
+        item.classList.remove("active")
+      }
+    })
+  }
+
+  // Play/Pause toggle
+  function togglePlay() {
+    if (audioElement.paused) {
+      playAudio()
+    } else {
+      pauseAudio()
+    }
+  }
+
+  // Play audio
+  function playAudio() {
+    audioElement.play()
+    playBtn.innerHTML = '<i class="fas fa-pause"></i>'
+    document.querySelector(".album-cover").classList.add("playing")
+  }
+
+  // Pause audio
+  function pauseAudio() {
+    audioElement.pause()
+    playBtn.innerHTML = '<i class="fas fa-play"></i>'
+    document.querySelector(".album-cover").classList.remove("playing")
+  }
+
+  // Previous song
+  function prevSong() {
+    songIndex--
+    if (songIndex < 0) {
+      songIndex = songs.length - 1
+    }
+    loadSong(songs[songIndex])
+    playAudio()
+  }
+
+  // Next song
+  function nextSong() {
+    songIndex++
+    if (songIndex > songs.length - 1) {
+      songIndex = 0
+    }
+    loadSong(songs[songIndex])
+    playAudio()
+  }
+
+  // Update progress bar
+  function updateProgress(e) {
+    const { duration, currentTime } = e.target
+    const progressPercent = (currentTime / duration) * 100
+    progressBar.style.width = `${progressPercent}%`
+
+    // Update time displays
+    currentTimeEl.textContent = formatTime(currentTime)
+    if (duration) {
+      durationEl.textContent = formatTime(duration)
+    }
+  }
+
+  // Format time to MM:SS
+  function formatTime(seconds) {
+    const min = Math.floor(seconds / 60)
+    const sec = Math.floor(seconds % 60)
+    return `${min}:${sec < 10 ? "0" + sec : sec}`
+  }
+
+  // Set progress bar on click
+  function setProgress(e) {
+    const width = this.clientWidth
+    const clickX = e.offsetX
+    const duration = audioElement.duration
+    audioElement.currentTime = (clickX / width) * duration
+  }
+
+  // Visualizer function
+  function visualize() {
+    visualizer.width = visualizer.offsetWidth
+    visualizer.height = visualizer.offsetHeight
+
+    const bufferLength = analyser.frequencyBinCount
+    const dataArray = new Uint8Array(bufferLength)
+
+    canvasContext.clearRect(0, 0, visualizer.width, visualizer.height)
+
+    function renderFrame() {
+      animationId = requestAnimationFrame(renderFrame)
+
+      analyser.getByteFrequencyData(dataArray)
+
+      canvasContext.fillStyle = "rgb(18, 18, 18)"
+      canvasContext.fillRect(0, 0, visualizer.width, visualizer.height)
+
+      const barWidth = (visualizer.width / bufferLength) * 2.5
+      let x = 0
+
+      for (let i = 0; i < bufferLength; i++) {
+        const barHeight = (dataArray[i] / 255) * visualizer.height
+
+        // Create gradient for bars
+        const gradient = canvasContext.createLinearGradient(0, visualizer.height, 0, 0)
+        gradient.addColorStop(0, "#1db954")
+        gradient.addColorStop(1, "#1ed760")
+
+        canvasContext.fillStyle = gradient
+        canvasContext.fillRect(x, visualizer.height - barHeight, barWidth, barHeight)
+
+        x += barWidth + 1
+      }
+    }
+    renderFrame()
+  }
+
+  // Event Listeners
+  playBtn.addEventListener("click", togglePlay)
+  prevBtn.addEventListener("click", prevSong)
+  nextBtn.addEventListener("click", nextSong)
+  audioElement.addEventListener("timeupdate", updateProgress)
+  progressContainer.addEventListener("click", setProgress)
+
+  // When song ends, play next song
+  audioElement.addEventListener("ended", nextSong)
+
+  // Volume control
+  volumeSlider.addEventListener("input", function () {
+    audioElement.volume = this.value
+  })
+
+  // Handle window resize for visualizer
+  window.addEventListener("resize", () => {
+    if (visualizer) {
+      visualizer.width = visualizer.offsetWidth
+      visualizer.height = visualizer.offsetHeight
+    }
+  })
+
+  // Initialize the player
+  initPlayer()
+})
+
+</script>
+</body>
+</html>
+

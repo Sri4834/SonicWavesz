@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SONIC WAVES</title>
+  <link rel="icon" type="image/png" href="./music-regular-24.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- <link rel="stylesheet" href="styles.css"> -->
+
+  <style>
+    @font-face {
+      font-family: "Emirates";
+      src: url('./fonts/Emirates-Bold.ttf') format('truetype');
+      src: url('./fonts/Emirates-Bold.woff') format('woff');
+      src: url('./fonts/Emirates-Bold.woff2') format('woff2');
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    :root {
+      --primary-color: #1db954;
+      --secondary-color: #191414;
+      --text-color: #ffffff;
+      --background-color: #121212;
+      --card-color: #181818;
+      --hover-color: #282828;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Emirates", sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      zoom: 95%;
+      position: static;
+      /* overflow-y: auto; */
+      overflow: hidden;
+    }
+
+    /* Header styling */
+    header {
+      text-align: center;
+      padding: 8px;
+      /* Match padding */
+    }
+
+    header h2 {
+      font-size: 50px;
+      display: inline-block;
+    }
+
+    li {
+      font-size: x-large;
+    }
+
+    #hrS {
+      width: 50%;
+      position: relative;
+      left: 115px;
+    }
+
+    #background-blur {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      mask-image: linear-gradient(to top, lightgrey, transparent 115%);
+    }
+
+    #background-blur video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      padding: 20px;
+      max-width: 1200px;
+      position: relative;
+      left: 85px;
+      zoom: 85%;
+      height: 600px;
+      /* Match height */
+    }
+
+    /* Playlist styling */
+    .playlist-box {
+      width: 500px;
+      /* Match width */
+      background-color: var(--card-color);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      height: fit-content;
+      max-height: 500px;
+    }
+
+    .playlist-box button {
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--primary-color);
+      font-size: 18px;
+      margin: -30px 120px 4px;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .playlist-box button:hover {
+      background-color: #1ed760;
+    }
+
+    .playlist h1 {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    #playlist-items {
+      list-style: none;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    #playlist-items li {
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    #playlist-items li:hover {
+      background-color: var(--hover-color);
+    }
+
+    #playlist-items li.active {
+      background-color: rgba(29, 185, 84, 0.2);
+      border-left: 3px solid var(--primary-color);
+    }
+
+    /* Playlist controls styling */
+    .playlist-controls {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .playlist-controls input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    .playlist-controls button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .playlist-controls button:hover {
+      background-color: #1ed760;
+    }
+
+    /* Music Player Styling */
+    .container {
+      width: 550px;
+      display: inline-block;
+      /* Add inline-block */
+      vertical-align: top;
+      /* Align to top */
+    }
+
+    .music-player {
+      background-color: var(--card-color);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      padding: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .album-cover {
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .album-cover img {
+      width: 80%;
+      max-width: 250px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .visualizer-container {
+      width: 100%;
+      height: 80px;
+      margin: 15px 0;
+    }
+
+    #visualizer {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+
+    .song-info {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .song-info h2 {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+    }
+
+    .song-info p {
+      color: #b3b3b3;
+      font-size: 1rem;
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background-color: #535353;
+      border-radius: 3px;
+      margin: 0 10px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .fa-solid,
+    .fas {
+      font-weight: 900;
+      font-size: 30px;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .control-btn {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.2rem;
+      margin: 0 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .control-btn:hover {
+      color: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    .play-btn {
+      font-size: 1.8rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .play-btn:hover {
+      background-color: #1ed760;
+    }
+
+    .volume-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .volume-container i {
+      margin: 0 10px;
+      color: #b3b3b3;
+    }
+
+    #volume {
+      flex: 1;
+      appearance: none;
+      height: 8px;
+      background: #535353;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #volume::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      cursor: pointer;
+    }
+
+    /* Custom scrollbar for playlist */
+    #playlist-items::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #playlist-items::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #playlist-items::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 5px;
+    }
+
+    /* Styling for SongAdding_Removing */
+    #SongAdding_Removing {
+      width: 500px;
+      /* Match width */
+      background-color: var(--card-color);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      padding: 10px 20px 30px;
+      height: fit-content;
+      position: relative;
+      left: 1140px;
+      bottom: 500px;
+      height: 400px;
+    }
+
+    #inputCustomStyle {
+      border: 1px solid white;
+      border-radius: 30px;
+      height: 150px;
+      position: relative;
+      bottom: 50px;
+    }
+
+    #SongAdding_Removing input[type="file"] {
+      padding: 10px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      height: 150px;
+      width: 100%;
+      cursor: pointer;
+      opacity: 0.001;
+    }
+
+    #SongAdding_Removing button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #SongAdding_Removing button:hover {
+      background-color: #1ed760;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 1200px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        zoom: 90%;
+      }
+
+      .container,
+      .playlist-box,
+      #SongAdding_Removing {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 850px) {
+      header h2 {
+        font-size: 36px;
+      }
+
+      .music-player,
+      .playlist-box,
+      #SongAdding_Removing {
+        padding: 15px;
+      }
+
+      .album-cover img {
+        width: 60%;
+      }
+
+      .visualizer-container {
+        height: 60px;
+      }
+
+      .control-btn {
+        font-size: 0.9rem;
+        margin: 0 8px;
+      }
+
+      .play-btn {
+        font-size: 1.3rem;
+        width: 45px;
+        height: 45px;
+      }
+
+      main {
+        zoom: 82%;
+        height: auto;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h2 {
+        font-size: 30px;
+      }
+
+      .album-cover img {
+        width: 80%;
+      }
+
+      .controls {
+        zoom: 150%;
+        width: 100%;
+      }
+
+      .control-btn {
+        font-size: 0.8rem;
+        margin: 0 5px;
+      }
+
+      .play-btn {
+        font-size: 1rem;
+        width: 40px;
+        height: 40px;
+      }
+
+      .progress-container {
+        font-size: 2rem;
+      }
+
+      .volume-container i {
+        font-size: 3rem;
+      }
+
+      #volume {
+        height: 10px;
+      }
+
+      main {
+        padding: 5px;
+      }
+    }
+
+    @media (max-width: 850px) {
+      main {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        left: -20px;
+      }
+
+      .playlist-box,
+      .container,
+      #SongAdding_Removing {
+        width: 90%;
+        max-width: 450px;
+      }
+
+      .playlist-box {
+        margin-bottom: 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h2 {
+        font-size: 36px;
+        position: relative;
+        left: 12px;
+      }
+
+      .music-player,
+      .playlist-box,
+      #SongAdding_Removing {
+        padding: 15px;
+      }
+
+      .album-cover img {
+        width: 60%;
+      }
+
+      .visualizer-container {
+        height: 60px;
+      }
+
+      .control-btn {
+        font-size: 0.9rem;
+        margin: 0 8px;
+      }
+
+      .play-btn {
+        font-size: 1.3rem;
+        width: 45px;
+        height: 45px;
+      }
+
+      main {
+        left: 10px;
+      }
+
+      body {
+        height: 80vh;
+        overflow: hidden;
+      }
+
+      main {
+        height: calc(100vh - 100px);
+        /* Adjust based on header height */
+        overflow-y: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h2 style="position: relative;left: 15px;">Sonic Waves'z <img
+        src="https://img.icons8.com/?size=100&id=UhJ9UV2elCNp&format=png&color=FFFFFF" height="80px" alt="MusicNoteHeadingImage"
+        style="position: relative;right: 10px;top: 20px;" />
+      <hr id="hrS" style="position: relative;left: 28px;width: 76%;height: 5px;background-color: white;" />
+    </h2>
+  </header>
+  <div id="background-blur"></div>
+  <main>
+    <div class="playlist-box">
+      <div class="playlist">
+        <h1 style="color:white;">Playlist
+          <hr id="hrS" />
+        </h1>
+        <ul id="playlist-items">
+          <li>Song 1: Devara Thandavam</li>
+          <li>Song 2: Devara All Hair Tiger</li>
+          <li>Song 3: Solo Levelling Intro</li>
+          <li>Song 4: Devara Ayudha Pooka</li>
+        </ul><br>
+        <br>
+        <button id="remove-song-btn">Remove Selected Song</button>
+        <div class="playlist-controls" id="SongAdding_Removing">
+          <label id="customFileLabel" for="fileup" id="fileuplabel" style="cursor: pointer;">
+            <h1 class="button__text">Upload Your Music Here
+              <hr style="width: 55%;position: relative;left: 100px;">
+            </h1>
+          </label>
+          <h1 style="position: relative;top: 80px;font-size: 40px;"> Click here to upload</h1>
+          <div id="inputCustomStyle">
+            <input type="file" id="fileup" accept="audio/*" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="music-player">
+        <div class="album-cover">
+          <img id="album-art" src="/placeholder.svg?height=200&width=200" height="200" width="200" alt="Album Cover">
+        </div>
+        <div class="visualizer-container" style="height: 80px;">
+          <canvas id="visualizer"></canvas>
+        </div>
+        <div class="song-info">
+          <h2 id="song-title">Song Title</h2>
+          <p id="song-artist">Artist</p>
+        </div>
+        <div class="progress-container">
+          <span id="current-time">0:00</span>
+          <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+          </div>
+          <span id="duration">0:00</span>
+        </div>
+        <div class="controls">
+          <button id="prev" class="control-btn"><i class="fas fa-step-backward"></i></button>
+          <button id="play" style="color: white;" class="control-btn play-btn"><i class="fas fa-play"></i></button>
+          <button id="next" class="control-btn"><i class="fas fa-step-forward"></i></button>
+        </div>
+        <div class="volume-container">
+          <i class="fas fa-volume-down"></i>
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7">
+          <i class="fas fa-volume-up"></i>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // DOM Elements
+      const audioElement = new Audio()
+      const playBtn = document.getElementById("play")
+      const prevBtn = document.getElementById("prev")
+      const nextBtn = document.getElementById("next")
+      const progressBar = document.getElementById("progress")
+      const progressContainer = document.querySelector(".progress-bar")
+      const currentTimeEl = document.getElementById("current-time")
+      const durationEl = document.getElementById("duration")
+      const volumeSlider = document.getElementById("volume")
+      const albumArt = document.getElementById("album-art")
+      const songTitle = document.getElementById("song-title")
+      const songArtist = document.getElementById("song-artist")
+      const playlistItems = document.getElementById("playlist-items")
+      const visualizer = document.getElementById("visualizer")
+      // Audio Context for Visualizer
+      let audioContext
+      let analyser
+      let source
+      const canvasContext = visualizer.getContext("2d")
+      let animationId
+      // Set canvas size
+      visualizer.width = visualizer.offsetWidth
+      visualizer.height = visualizer.offsetHeight
+      // Sample playlist - in a real app, you might load this from an API
+      const songs = [{
+        title: "Devara Thandavam",
+        artist: "Anirudh Ravichander",
+        src: "Devara Thandavam.mp3",
+        cover: "https://i.scdn.co/image/ab67616d00001e025280788ee7502153c9377477",
+      },
+      {
+        title: "Devara: All Hail Tiger",
+        artist: "Anirudh Ravichander",
+        src: "All Hail The Tiger.mp3",
+        cover: "https://i.scdn.co/image/ab67616d00001e02f4920fea00e57158f540baaa",
+      },
+      {
+        title: "Solo Levelling",
+        artist: "SawanoHiroyuki & TOMORROW X TOGETHER Band",
+        src: "Dfark Solo Levelling Intro.mp3",
+        cover: "https://motionbgs.com/media/5261/solo-leveling-arise.jpg",
+      },
+      {
+        title: "Devara: Ayudha Pooja",
+        artist: "Kala Bhairava",
+        src: "Ayudha Pooja.mp3",
+        cover: "https://i.scdn.co/image/ab67616d00001e02ace943da67db014bbcbbf1c1",
+      },
+      ]
+      // Current song index
+      let songIndex = 0
+      // Initialize player
+      function initPlayer() {
+        // Load first song
+        loadSong(songs[songIndex])
+        // Create playlist items
+        renderPlaylist()
+        // Set initial volume
+        audioElement.volume = volumeSlider.value
+        // Setup audio context for visualizer when user interacts
+        playBtn.addEventListener("click", () => {
+          if (!audioContext) {
+            setupAudioContext()
+          }
+          togglePlay()
+        })
+      }
+      // Setup Audio Context for visualizer
+      function setupAudioContext() {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)()
+        analyser = audioContext.createAnalyser()
+        source = audioContext.createMediaElementSource(audioElement)
+        source.connect(analyser)
+        analyser.connect(audioContext.destination)
+        analyser.fftSize = 256
+        // Start visualizer
+        visualize()
+      }
+      // Render the playlist
+      function renderPlaylist() {
+        playlistItems.innerHTML = ""
+        songs.forEach((song, index) => {
+          const li = document.createElement("li")
+          li.textContent = `${song.title} - ${song.artist}`
+          li.dataset.index = index
+          if (index === songIndex) {
+            li.classList.add("active")
+          }
+          li.addEventListener("click", () => {
+            songIndex = Number.parseInt(li.dataset.index)
+            loadSong(songs[songIndex])
+            if (!audioContext) {
+              setupAudioContext()
+            }
+            playAudio()
+          })
+          playlistItems.appendChild(li)
+        })
+      }
+      // Load song details
+      function loadSong(song) {
+        songTitle.textContent = song.title || "Unknown Title";
+        songArtist.textContent = song.artist || "Unknown Artist";
+        if(song.cover)
+          albumArt.src = song.cover; // Use default.png if no cover is provided
+        else
+          albumArt.src = "default.png"; // Use default.png if no cover is provided
+        audioElement.src = song.src;
+        // Set background based on song type
+        const backgroundBlur = document.getElementById('background-blur');
+        if (song.background) {
+          // For unknown songs, use VidBg.mkv as the background video
+          backgroundBlur.innerHTML = `<video autoplay muted loop id="bg-video">
+                                      <source src="${song.background}" type="video/mp4">
+                                      Your browser does not support the video tag.
+                                   </video>`;
+        } else {
+          // For known songs, use the cover image as the background
+          backgroundBlur.style.backgroundImage = `url(${song.cover})`;
+          backgroundBlur.innerHTML = ""; // Clear any existing video
+        }
+        // Update active playlist item
+        document.querySelectorAll("#playlist-items li").forEach((item, index) => {
+          if (index === songIndex) {
+            item.classList.add("active");
+          } else {
+            item.classList.remove("active");
+          }
+        });
+      }
+      // Play/Pause toggle
+      function togglePlay() {
+        if (audioElement.paused) {
+          playAudio()
+        } else {
+          pauseAudio()
+        }
+      }
+      // Play audio
+      function playAudio() {
+        audioElement.play()
+        playBtn.innerHTML =
+          '<i class="fas fa-pause" style="color:white;" onMouseOver="this.style.color=\'white\'" onMouseOut="this.style.color=\'white\'"></i>'
+        document.querySelector(".album-cover").classList.add("playing")
+      }
+      // Pause audio
+      function pauseAudio() {
+        audioElement.pause()
+        playBtn.innerHTML =
+          '<i class="fas fa-play" style="color:white;" onMouseOver="this.style.color=\'white\'" onMouseOut="this.style.color=\'white\'"></i>'
+        document.querySelector(".album-cover").classList.remove("playing")
+      }
+      // Previous song
+      function prevSong() {
+        songIndex--
+        if (songIndex < 0) {
+          songIndex = songs.length - 1
+        }
+        loadSong(songs[songIndex])
+        playAudio()
+      }
+      // Next song
+      function nextSong() {
+        songIndex++
+        if (songIndex > songs.length - 1) {
+          songIndex = 0
+        }
+        loadSong(songs[songIndex])
+        playAudio()
+      }
+      // Update progress bar
+      function updateProgress(e) {
+        const {
+          duration,
+          currentTime
+        } = e.target
+        const progressPercent = (currentTime / duration) * 100
+        progressBar.style.width = `${progressPercent}%`
+        // Update time displays
+        currentTimeEl.textContent = formatTime(currentTime)
+        if (duration) {
+          durationEl.textContent = formatTime(duration)
+        }
+      }
+      // Format time to MM:SS
+      function formatTime(seconds) {
+        const min = Math.floor(seconds / 60)
+        const sec = Math.floor(seconds % 60)
+        if (sec < 10) {
+          return `${min}:0${sec}`
+        } else {
+          return `${min}:${sec}`
+        }
+        // return `${min}:${sec < 10 ? "0" + sec : sec}`
+      }
+      // Set progress bar on click
+      function setProgress(e) {
+        const width = this.clientWidth
+        const duration = audioElement.duration
+        audioElement.currentTime = (e.offsetX / width) * duration
+      }
+      // Visualizer function
+      function visualize() {
+        visualizer.width = visualizer.offsetWidth
+        visualizer.height = visualizer.offsetHeight
+        const bufferLength = analyser.frequencyBinCount
+        const dataArray = new Uint8Array(bufferLength)
+        canvasContext.clearRect(0, 0, visualizer.width, visualizer.height)
+
+        function renderFrame() {
+          animationId = requestAnimationFrame(renderFrame)
+          analyser.getByteFrequencyData(dataArray)
+          canvasContext.fillStyle = "rgb(18, 18, 18)"
+          canvasContext.fillRect(0, 0, visualizer.width, visualizer.height)
+          const barWidth = (visualizer.width / bufferLength) * 2.5
+          let x = 0
+          for (let i = 0; i < bufferLength; i++) {
+            const barHeight = (dataArray[i] / 255) * visualizer.height
+            // Create gradient for bars
+            const gradient = canvasContext.createLinearGradient(0, visualizer.height, 0, 0)
+            gradient.addColorStop(0, "#1db954")
+            gradient.addColorStop(1, "#1ed760")
+            canvasContext.fillStyle = gradient
+            canvasContext.fillRect(x, visualizer.height - barHeight, barWidth, barHeight)
+            x += barWidth + 1
+          }
+        }
+        renderFrame()
+      }
+      // Event Listeners
+      prevBtn.addEventListener("click", prevSong)
+      nextBtn.addEventListener("click", nextSong)
+      audioElement.addEventListener("timeupdate", updateProgress)
+      progressContainer.addEventListener("click", setProgress)
+      // When song ends, play next song
+      audioElement.addEventListener("ended", nextSong)
+      // Volume control
+      volumeSlider.addEventListener("input", function () {
+        audioElement.volume = this.value
+      })
+      // Handle window resize for visualizer
+      window.addEventListener("resize", () => {
+        if (visualizer) {
+          visualizer.width = visualizer.offsetWidth
+          visualizer.height = visualizer.offsetHeight
+        }
+      })
+      // Add song functionality
+      // Add song functionality
+      const songFileInput = document.getElementById("fileup");
+      songFileInput.addEventListener("change", () => {
+        const file = songFileInput.files[0];
+        if (file) {
+          // Try to extract metadata if possible
+          try {
+            // Create a URL for the file
+            const objectURL = URL.createObjectURL(file);
+            // Create a temporary audio element to extract metadata
+            const tempAudio = new Audio(objectURL);
+            tempAudio.addEventListener('loadedmetadata', () => {
+              // Try to get metadata
+              let extractedTitle = file.name;
+              let extractedArtist = "Unknown Artist";
+              // If file name has format "Artist - Title.mp3", try to extract
+              const nameMatch = file.name.match(/^(.*?)\s*-\s*(.*)\.(mp3|wav|ogg)$/i);
+              if (nameMatch && nameMatch.length >= 3) {
+                extractedArtist = nameMatch[1].trim();
+                extractedTitle = nameMatch[2].trim();
+              }
+              const newSong = {
+                title: extractedTitle,
+                artist: extractedArtist,
+                src: objectURL,
+                cover: "default.png", // Default cover for uploaded songs
+                background: "VidBg.mkv" // Default background video for unknown songs
+              };
+              songs.push(newSong);
+              renderPlaylist();
+              songFileInput.value = "";
+            });
+            tempAudio.addEventListener('error', () => {
+              // Handle metadata extraction error, fall back to default values
+              const newSong = {
+                title: file.name,
+                artist: "Unknown Artist",
+                src: URL.createObjectURL(file),
+                cover: "default.png", // Default cover for uploaded songs
+                background: "VidBg.mkv" // Default background video for unknown songs
+              };
+              songs.push(newSong);
+              renderPlaylist();
+              songFileInput.value = "";
+            });
+          } catch (error) {
+            // Fallback for any errors
+            const newSong = {
+              title: file.name,
+              artist: "Unknown Artist",
+              src: URL.createObjectURL(file),
+              cover: "default.png", // Default cover for uploaded songs
+              background: "VidBg.mkv" // Default background video for unknown songs
+            };
+            songs.push(newSong);
+            renderPlaylist();
+            songFileInput.value = "";
+          }
+        } else {
+          alert("Please select a file to upload.");
+        }
+      });
+      // Remove song functionality
+      const removeSongBtn = document.getElementById("remove-song-btn");
+      removeSongBtn.addEventListener("click", () => {
+        const activeItem = document.querySelector("#playlist-items li.active");
+        if (activeItem) {
+          const index = Number.parseInt(activeItem.dataset.index);
+          songs.splice(index, 1);
+          songIndex = 0; // Reset to the first song
+          renderPlaylist();
+          loadSong(songs[songIndex]);
+        } else {
+          alert("Please select a song to remove.");
+        }
+      });
+      // Initialize the player
+      initPlayer()
+    })
+  </script>
+</body>
+
+</html>
