@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
   <title>SONIC WAVES</title>
   <link rel="icon" type="image/png" href="./music-regular-24.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -48,12 +48,17 @@
     header {
       text-align: center;
       padding: 8px;
-      /* Match padding */
     }
 
     header h2 {
       font-size: 50px;
       display: inline-block;
+    }
+
+    .MainContainer{
+      position: relative;
+      right: 30px;
+      top: 40px;
     }
 
     li {
@@ -66,7 +71,7 @@
       left: 115px;
     }
 
-    #background-blur {
+    #backgroundy {
       position: fixed;
       top: 0;
       left: 0;
@@ -78,7 +83,7 @@
       mask-image: linear-gradient(to top, lightgrey, transparent 115%);
     }
 
-    #background-blur video {
+    #backgroundy video {
       position: absolute;
       top: 0;
       left: 0;
@@ -105,13 +110,14 @@
     /* Playlist styling */
     .playlist-box {
       width: 500px;
-      /* Match width */
       background-color: var(--card-color);
+      /* background-color: transparent; */
+      /* opacity: 1; */
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       padding: 20px;
-      height: fit-content;
-      max-height: 500px;
+      height: 600px;
+      max-height: 600px;
     }
 
     .playlist-box button {
@@ -120,10 +126,13 @@
       border-radius: 5px;
       background-color: var(--primary-color);
       font-size: 18px;
-      margin: -30px 120px 4px;
+      /* margin: -30px 120px 4px; */
       color: var(--text-color);
       cursor: pointer;
       transition: background-color 0.3s ease;
+      position: relative;
+      top: 20px;
+      left: 110px;
     }
 
     .playlist-box button:hover {
@@ -137,7 +146,10 @@
 
     #playlist-items {
       list-style: none;
-      max-height: 300px;
+      height: 300px;
+      position: relative;
+      top: 20px;
+      max-height: 500px;
       overflow-y: auto;
     }
 
@@ -214,24 +226,26 @@
     }
 
     .album-cover img {
-      width: 80%;
+      width: 500px;
       max-width: 250px;
       height: auto;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      box-shadow: 30px 15px 15px rgba(0, 0, 0, 0.2);
     }
 
     .visualizer-container {
       width: 100%;
-      height: 80px;
+      height: 100px;
       margin: 15px 0;
     }
 
     #visualizer {
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.2);
+      /* background-color: rgba(0, 0, 0, 0.2); */
+      /* background-color: transparent; */
       border-radius: 10px;
+      z-index: -1;
     }
 
     .song-info {
@@ -376,212 +390,233 @@
     }
 
     #inputCustomStyle {
-      border: 1px solid white;
-      border-radius: 30px;
-      height: 150px;
+      border: 1px solid #272424;
+      border-radius: 100px;
+      height: 120px;
       position: relative;
-      bottom: 50px;
+      bottom: 40px;
     }
-
-    #SongAdding_Removing input[type="file"] {
-      padding: 10px;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      height: 150px;
-      width: 100%;
-      cursor: pointer;
-      opacity: 0.001;
-    }
-
-    #SongAdding_Removing button {
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: var(--primary-color);
-      color: var(--text-color);
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #SongAdding_Removing button:hover {
-      background-color: #1ed760;
-    }
-
-    /* Responsive styles */
-    @media (max-width: 1200px) {
-      main {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        zoom: 90%;
-      }
-
-      .container,
-      .playlist-box,
-      #SongAdding_Removing {
-        width: 90%;
-      }
-    }
-
-    @media (max-width: 850px) {
-      header h2 {
-        font-size: 36px;
-      }
-
-      .music-player,
-      .playlist-box,
-      #SongAdding_Removing {
-        padding: 15px;
-      }
-
-      .album-cover img {
-        width: 60%;
-      }
-
-      .visualizer-container {
-        height: 60px;
-      }
-
-      .control-btn {
-        font-size: 0.9rem;
-        margin: 0 8px;
-      }
-
-      .play-btn {
-        font-size: 1.3rem;
-        width: 45px;
-        height: 45px;
-      }
-
-      main {
-        zoom: 82%;
-        height: auto;
+      #SongAdding_Removing input[type="file"] {
         padding: 10px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      header h2 {
-        font-size: 30px;
-      }
-
-      .album-cover img {
-        width: 80%;
-      }
-
-      .controls {
-        zoom: 150%;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        height: 150px;
         width: 100%;
-      }
-
-      .control-btn {
-        font-size: 0.8rem;
-        margin: 0 5px;
-      }
-
-      .play-btn {
-        font-size: 1rem;
-        width: 40px;
-        height: 40px;
-      }
-
-      .progress-container {
-        font-size: 2rem;
-      }
-
-      .volume-container i {
-        font-size: 3rem;
-      }
-
-      #volume {
-        height: 10px;
-      }
-
-      main {
-        padding: 5px;
-      }
-    }
-
-    @media (max-width: 850px) {
-      main {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 0;
-        left: -20px;
-      }
-
-      .playlist-box,
-      .container,
-      #SongAdding_Removing {
-        width: 90%;
-        max-width: 450px;
-      }
-
-      .playlist-box {
-        margin-bottom: 30px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      header h2 {
-        font-size: 36px;
+        cursor: pointer;
         position: relative;
-        left: 12px;
+        bottom: 22px;
+        opacity: 0.001;
       }
 
-      .music-player,
-      .playlist-box,
-      #SongAdding_Removing {
-        padding: 15px;
+      #SongAdding_Removing button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--primary-color);
+        color: var(--text-color);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
       }
 
-      .album-cover img {
-        width: 60%;
+      #SongAdding_Removing button:hover {
+        background-color: #1ed760;
       }
 
-      .visualizer-container {
-        height: 60px;
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
-      .control-btn {
-        font-size: 0.9rem;
-        margin: 0 8px;
+      /* Responsive styles */
+      @media (max-width: 1200px) {
+        main {
+          flex-direction: column;
+          align-items: center;
+          gap: 30px;
+          zoom: 90%;
+        }
+
+        .container,
+        .playlist-box,
+        #SongAdding_Removing {
+          width: 90%;
+        }
       }
 
-      .play-btn {
-        font-size: 1.3rem;
-        width: 45px;
-        height: 45px;
+      @media (max-width: 850px) {
+        header h2 {
+          font-size: 36px;
+        }
+
+        .music-player,
+        .playlist-box,
+        #SongAdding_Removing {
+          padding: 15px;
+        }
+
+        .album-cover img {
+          width: 60%;
+        }
+
+        .visualizer-container {
+          height: 60px;
+        }
+
+        .control-btn {
+          font-size: 0.9rem;
+          margin: 0 8px;
+        }
+
+        .play-btn {
+          font-size: 1.3rem;
+          width: 45px;
+          height: 45px;
+        }
+
+        main {
+          zoom: 82%;
+          height: auto;
+          padding: 10px;
+        }
       }
 
-      main {
-        left: 10px;
+      @media (max-width: 600px) {
+        header h2 {
+          font-size: 30px;
+        }
+
+        .album-cover img {
+          width: 80%;
+        }
+
+        .controls {
+          zoom: 150%;
+          width: 100%;
+        }
+
+        .control-btn {
+          font-size: 0.8rem;
+          margin: 0 5px;
+        }
+
+        .play-btn {
+          font-size: 1rem;
+          width: 40px;
+          height: 40px;
+        }
+
+        .progress-container {
+          font-size: 2rem;
+        }
+
+        .volume-container i {
+          font-size: 3rem;
+        }
+
+        #volume {
+          height: 10px;
+        }
+
+        main {
+          padding: 5px;
+        }
       }
 
-      body {
-        height: 80vh;
-        overflow: hidden;
+      @media (max-width: 850px) {
+        main {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 0;
+          left: -20px;
+        }
+
+        .playlist-box,
+        .container,
+        #SongAdding_Removing {
+          width: 90%;
+          max-width: 450px;
+        }
+
+        .playlist-box {
+          margin-bottom: 30px;
+        }
       }
 
-      main {
-        height: calc(100vh - 100px);
-        /* Adjust based on header height */
-        overflow-y: auto;
+      @media (max-width: 480px) {
+        header h2 {
+          font-size: 36px;
+          position: relative;
+          left: 12px;
+        }
+
+        .music-player,
+        .playlist-box,
+        #SongAdding_Removing {
+          padding: 15px;
+        }
+
+        .album-cover img {
+          width: 60%;
+        }
+
+        .visualizer-container {
+          height: 60px;
+        }
+
+        .control-btn {
+          font-size: 0.9rem;
+          margin: 0 8px;
+        }
+
+        .play-btn {
+          font-size: 1.3rem;
+          width: 45px;
+          height: 45px;
+        }
+
+        main {
+          left: 10px;
+        }
+
+        body {
+          height: 80vh;
+          overflow: hidden;
+        }
+
+        main {
+          height: calc(100vh - 100px);
+          /* Adjust based on header height */
+          overflow-y: auto;
+        }
       }
-    }
   </style>
 </head>
 
 <body>
   <header>
     <h2 style="position: relative;left: 15px;">Sonic Waves'z <img
-        src="https://img.icons8.com/?size=100&id=UhJ9UV2elCNp&format=png&color=FFFFFF" height="80px" alt="MusicNoteHeadingImage"
-        style="position: relative;right: 10px;top: 20px;" />
+        src="https://img.icons8.com/?size=100&id=UhJ9UV2elCNp&format=png&color=FFFFFF" height="80px"
+        alt="MusicNoteHeadingImage" style="position: relative;right: 10px;top: 20px;" />
       <hr id="hrS" style="position: relative;left: 28px;width: 76%;height: 5px;background-color: white;" />
     </h2>
   </header>
-  <div id="background-blur"></div>
+  <div class="MainContainer">
+  <div id="backgroundy">
+    <video 
+    autoplay 
+    muted 
+    loop 
+    playsinline
+  >
+    <source src="./Assets/VJ LOOP NEON Pink Purple Abstract Background Video Simple Lines Pattern - Motion 4k Screensaver.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+  </div>
   <main>
     <div class="playlist-box">
       <div class="playlist">
@@ -602,7 +637,7 @@
               <hr style="width: 55%;position: relative;left: 100px;">
             </h1>
           </label>
-          <h1 style="position: relative;top: 80px;font-size: 40px;"> Click here to upload</h1>
+          <h1 style="position: relative;top: 65px;font-size: 30px;"> Click here to upload</h1>
           <div id="inputCustomStyle">
             <input type="file" id="fileup" accept="audio/*" />
           </div>
@@ -614,7 +649,7 @@
         <div class="album-cover">
           <img id="album-art" src="/placeholder.svg?height=200&width=200" height="200" width="200" alt="Album Cover">
         </div>
-        <div class="visualizer-container" style="height: 80px;">
+        <div class="visualizer-container">
           <canvas id="visualizer"></canvas>
         </div>
         <div class="song-info">
@@ -641,7 +676,7 @@
       </div>
     </div>
   </main>
-
+</div>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       // DOM Elements
@@ -744,28 +779,21 @@
           playlistItems.appendChild(li)
         })
       }
-      // Load song details
+      // Load song details function
       function loadSong(song) {
         songTitle.textContent = song.title || "Unknown Title";
         songArtist.textContent = song.artist || "Unknown Artist";
-        if(song.cover)
-          albumArt.src = song.cover; // Use default.png if no cover is provided
+        if (song.cover)
+          albumArt.src = song.cover; // Use their cover if it is provided
         else
           albumArt.src = "default.png"; // Use default.png if no cover is provided
         audioElement.src = song.src;
-        // Set background based on song type
-        const backgroundBlur = document.getElementById('background-blur');
-        if (song.background) {
-          // For unknown songs, use VidBg.mkv as the background video
-          backgroundBlur.innerHTML = `<video autoplay muted loop id="bg-video">
-                                      <source src="${song.background}" type="video/mp4">
-                                      Your browser does not support the video tag.
-                                   </video>`;
-        } else {
-          // For known songs, use the cover image as the background
-          backgroundBlur.style.backgroundImage = `url(${song.cover})`;
-          backgroundBlur.innerHTML = ""; // Clear any existing video
-        }
+        // Reset progress bar
+        progressBar.style.width = "0%";
+        // Reset time displays
+        currentTimeEl.textContent = "0:00";
+        durationEl.textContent = "0:00";
+
         // Update active playlist item
         document.querySelectorAll("#playlist-items li").forEach((item, index) => {
           if (index === songIndex) {
@@ -775,6 +803,7 @@
           }
         });
       }
+
       // Play/Pause toggle
       function togglePlay() {
         if (audioElement.paused) {
@@ -893,7 +922,6 @@
         }
       })
       // Add song functionality
-      // Add song functionality
       const songFileInput = document.getElementById("fileup");
       songFileInput.addEventListener("change", () => {
         const file = songFileInput.files[0];
@@ -902,29 +930,34 @@
           try {
             // Create a URL for the file
             const objectURL = URL.createObjectURL(file);
+
             // Create a temporary audio element to extract metadata
             const tempAudio = new Audio(objectURL);
+
             tempAudio.addEventListener('loadedmetadata', () => {
               // Try to get metadata
               let extractedTitle = file.name;
               let extractedArtist = "Unknown Artist";
+
               // If file name has format "Artist - Title.mp3", try to extract
               const nameMatch = file.name.match(/^(.*?)\s*-\s*(.*)\.(mp3|wav|ogg)$/i);
               if (nameMatch && nameMatch.length >= 3) {
                 extractedArtist = nameMatch[1].trim();
                 extractedTitle = nameMatch[2].trim();
               }
+
               const newSong = {
                 title: extractedTitle,
                 artist: extractedArtist,
                 src: objectURL,
                 cover: "default.png", // Default cover for uploaded songs
-                background: "VidBg.mkv" // Default background video for unknown songs
               };
+
               songs.push(newSong);
               renderPlaylist();
               songFileInput.value = "";
             });
+
             tempAudio.addEventListener('error', () => {
               // Handle metadata extraction error, fall back to default values
               const newSong = {
@@ -932,8 +965,8 @@
                 artist: "Unknown Artist",
                 src: URL.createObjectURL(file),
                 cover: "default.png", // Default cover for uploaded songs
-                background: "VidBg.mkv" // Default background video for unknown songs
               };
+
               songs.push(newSong);
               renderPlaylist();
               songFileInput.value = "";
@@ -945,8 +978,8 @@
               artist: "Unknown Artist",
               src: URL.createObjectURL(file),
               cover: "default.png", // Default cover for uploaded songs
-              background: "VidBg.mkv" // Default background video for unknown songs
             };
+
             songs.push(newSong);
             renderPlaylist();
             songFileInput.value = "";
@@ -974,5 +1007,4 @@
     })
   </script>
 </body>
-
 </html>
